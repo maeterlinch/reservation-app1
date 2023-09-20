@@ -22,7 +22,7 @@ const app = express()
 app.use('/api/v1/products', productRoutes)
 
 if(process.env.NODE_ENV === 'production') {
-    const appPath = path.join( __dirname, '..', 'dist', 'reservation-app')
+    const appPath = path.join( __dirname, '..', 'dist', 'reservation-app1')
     app.use(express.static(appPath))
     app.get("*", function(_req, _res) {
         _res.sendFile(path.resolve(appPath, 'index.html'))
