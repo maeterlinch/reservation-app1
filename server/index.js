@@ -25,7 +25,7 @@ if(process.env.NODE_ENV === 'production') {
     const appPath = path.join( __dirname, '..', 'dist', 'reservation-app')
     app.use(express.static(appPath))
     app.get("*", function(_req, _res) {
-        res.sendFile(path.resolve(appPath, 'index.html'))
+        _res.sendFile(path.resolve(appPath, 'index.html'))
       })
 
     //app.get('/products', function(req, res) {
