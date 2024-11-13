@@ -9,14 +9,13 @@ import { ProductService } from '../shared/product.service';
   styleUrls: ['./prodcut-listings.component.scss']
 })
 export class ProdcutListComponent implements OnInit{
-//  products = this.productService.getProducts()
-products: any[] = []
+  //  products = this.productService.getProducts()
+  products: any[] = []
 
-constructor(private productService: ProductService) { }
-//  private route: ActivatedRoute
+  constructor(private productService: ProductService) { }
+  //  private route: ActivatedRoute
   
   ngOnInit(): void {
-
     const productsObservable = this.productService.getProducts()
     productsObservable.subscribe(
       (data) => { 
@@ -25,6 +24,5 @@ constructor(private productService: ProductService) { }
       },
       (err) => { console.error('次のエラーが発生しました: ' + err) } 
     )
-
   }
 }
