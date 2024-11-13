@@ -14,6 +14,8 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 export class AppComponent implements OnInit {
   private _router!: Subscription;
   @ViewChild(NavbarComponent) navbar!: NavbarComponent;
+//   title: any;
+    title = 'reservation-app';  // title プロパティを追加
  
   constructor( private renderer : Renderer2, private router: Router, @Inject(DOCUMENT,) private document: any, private element : ElementRef, public location: Location) {}
   ngOnInit() {
