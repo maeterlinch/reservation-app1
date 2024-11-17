@@ -30,9 +30,11 @@ app.use('/api/v1/users', userRoutes)
 // 本番環境用設定
 if(process.env.NODE_ENV === 'production') {
     // const appPath = path.join( __dirname, '..', 'dist', 'reservation-app1')
-    const appPath = path.join( __dirname, '..', 'dist')
+    const appPath = path.join( __dirname, '..', 'wwwroot')
+    console.log('Static files path:', appPath) // デバッグ用ログ
     app.use(express.static(appPath))
     app.get("*", function(_req, _res) {
+        console.log('Serving index.html for all unmatched routes') // デバッグ用ログ
         _res.sendFile(path.resolve(appPath, 'index.html'))
       })
 
