@@ -29,7 +29,8 @@ app.use('/api/v1/users', userRoutes)
 
 // 本番環境用設定
 if(process.env.NODE_ENV === 'production') {
-    const appPath = path.join( __dirname, '..', 'dist', 'reservation-app1')
+    // const appPath = path.join( __dirname, '..', 'dist', 'reservation-app1')
+    const appPath = path.join( __dirname, '..', 'dist')
     app.use(express.static(appPath))
     app.get("*", function(_req, _res) {
         _res.sendFile(path.resolve(appPath, 'index.html'))
