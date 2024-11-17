@@ -8,17 +8,18 @@ const productRoutes = require('./routes/products')
 const userRoutes = require('./routes/users')
 const path = require('path')
 
-mongoose.connect(config.DB_URI, {
+// データベース接続
+mongoose.connect(process.env.DB_URI || config.DB_URI, { // 環境変数を優先
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(
-    () => {
-        if(process.env.NODE_ENV !== 'production') {
-            const sampleDb = new SampleDb()
-            // sampleDb.initDb()
-        }
+}).then(() => {
+    if(process.env.NODE_ENV !== 'production') {
+        const sampleDb = new SampleDb()
+        // sampleDb.initDb()
     }
-)
+}).catch((error) => {
+    console.error('Database connection error:', error)
+})
 
 const app = express()
 app.use(bodyParser.json())
@@ -26,6 +27,7 @@ app.use(bodyParser.json())
 app.use('/api/v1/products', productRoutes)
 app.use('/api/v1/users', userRoutes)
 
+// 本番環境用設定
 if(process.env.NODE_ENV === 'production') {
     const appPath = path.join( __dirname, '..', 'dist', 'reservation-app1')
     app.use(express.static(appPath))
@@ -38,8 +40,8 @@ if(process.env.NODE_ENV === 'production') {
     //})
 }
 
+// サーバー設定
 const PORT = process.env.PORT || '3001'
-
 app.listen(PORT, function() {
-    console.log('I am running!')
+    console.log(`Server is running on port ${PORT}`)
 })
