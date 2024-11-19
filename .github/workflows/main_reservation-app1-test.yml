@@ -51,6 +51,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'reservation-app1-test'
-          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6E279BD6ADE14FECAA30C6045C755572 }}
