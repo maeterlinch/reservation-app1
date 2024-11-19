@@ -30,7 +30,7 @@ app.use('/api/v1/users', userRoutes)
 // 本番環境用設定
 if(process.env.NODE_ENV === 'production') {
     // const appPath = path.join( __dirname, '..', 'dist', 'reservation-app1')
-    const appPath = path.join( __dirname, '..', 'wwwroot')
+    const appPath = path.join( __dirname, '..', 'dist')
     console.log('Static files path:', appPath) // デバッグ用ログ
     app.use(express.static(appPath))
     app.get("*", function(_req, _res) {
