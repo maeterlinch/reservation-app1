@@ -37,14 +37,10 @@ if(process.env.NODE_ENV === 'production') {
         console.log('Serving index.html for all unmatched routes') // デバッグ用ログ
         _res.sendFile(path.resolve(appPath, 'index.html'))
       })
-
-    //app.get('/products', function(req, res) {
-    //    res.json({'success': true})
-    //})
 }
 
 // サーバー設定
-const PORT = process.env.PORT || '3001'
+const PORT = process.env.PORT || 3001
 app.listen(PORT, function() {
     console.log(`Server is running on port ${PORT}`)
 })
