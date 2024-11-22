@@ -19,7 +19,8 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '16.2'
+          node-version: '16.20.2'
+          npm-version: '9.6.4'
 
       - name: npm install, build, and test
         run: |
