@@ -2,7 +2,7 @@
   "name": "reservation-app1",
   "version": "0.0.0",
   "engines": {
-    "node": "16.20.1",
+    "node": "16.20.2",
     "npm": "9.6.4"
   },
   "scripts": {
