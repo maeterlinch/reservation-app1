@@ -25,6 +25,9 @@ jobs:
       - name: Force npm to version 9.6.4
         run: npm install -g npm@9.6.4
 
+      - name: Force Install escape-html
+        run: npm install escape-html@1.0.3
+
       - name: npm install, build, and test
         run: |
           npm install
