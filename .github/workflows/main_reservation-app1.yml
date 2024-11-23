@@ -22,6 +22,9 @@ jobs:
           node-version: '16.20.2'
           npm-version: '9.6.4'
 
+      - name: Force npm to version 9.6.4
+        run: npm install -g npm@9.6.4
+
       - name: npm install, build, and test
         run: |
           npm install
