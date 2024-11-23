@@ -25,19 +25,11 @@ jobs:
       - name: Force npm to version 9.6.4
         run: npm install -g npm@9.6.4
 
-      - name: Force Install escape-html
-        run: npm install escape-html@1.0.3
-
       - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
-
-      - name: Verify escape-html installation
-        run: |
-          echo "Checking if escape-html is installed..."
-          npm list escape-html || echo "escape-html is NOT installed"
 
       - name: Verify escape-html existence in node_modules
         run: |
@@ -52,7 +44,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: ./
+          path: |
+            ./ # プロジェクト全体
+            ./node_modules # 依存関係
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,7 +60,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+          
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -75,3 +69,5 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5DF1693EB16C43E0934E32334E704923 }}
+          enable-docker-build: false # Azureのビルドを無効化
+
