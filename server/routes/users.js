@@ -69,6 +69,7 @@ userRoutes.post('/:register', async function(req, res) {
     return res.json({ registered: true });
     
   } catch (err) {
+    console.error('Error occurred during login:', err);
     return res.status(422).send({ errors: [{ title: 'User error', detail: 'Something went wrong!' }] })
   }
   
