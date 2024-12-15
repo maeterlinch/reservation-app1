@@ -20,7 +20,7 @@ export class ProdcutListComponent implements OnInit{
     productsObservable.subscribe(
       (data) => { 
         this.products = data
-        console.log('次のデータが出力されました： ' + data)
+        // console.log('次のデータが出力されました： ' + data)
       },
       (err) => { console.error('次のエラーが発生しました: ' + err) } 
     )

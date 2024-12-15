@@ -1,35 +1,70 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-//import { products } from 'src/app/products';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import * as moment from 'moment';
+import { Router } from '@angular/router';
+
+
+interface UserData {
+  username: string;
+  password: string;
+}
+
+const jwt = new JwtHelperService()
+
+class DecodedToken{
+  userId: string = ''
+  username: string = ''
+  password: string =''
+  exp: number = 0
+}
 
 @Injectable()
 export class AuthService {
+  private decodedToken: DecodedToken;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+        private router: Router
+  ) {
+    // localStorage.getItem が null の場合、初期値として新しい DecodedToken を使用
+    const storedToken = localStorage.getItem('app-meta');
+    this.decodedToken = storedToken ? JSON.parse(storedToken) : new DecodedToken();
+  }
 
-// getProducts(): Observable<any> {
-// return this.http.get('/api/v1/products')
-// }
+  getToken() {
+    return localStorage.getItem('app-auth')
+  }
 
-register(userData: any): Observable<any> {
-  return this.http.post('/api/v1/users/register' , userData)
-}
+  isAuthenticated() {
+    // 現在時刻とexpの時刻を比較判定する
+    return moment().isBefore(moment.unix(this.decodedToken.exp))
+  }
 
-login(userData: any): Observable<any> {
-  return this.http.post('/api/v1/users/login' , userData)
-}
+  register(userData: any): Observable<any> {
+    return this.http.post('/api/v1/users/register', userData)
+  }
 
-// getProductById(productId: string): Observable<any> {
-//   return this.http.get('/api/v1/products/' + productId)
-// }
+  login(userData: UserData): Observable<string> {
+    return this.http.post<string>('/api/v1/users/login', userData).pipe(
+      map((response: string) => {
+        const token = response; // JWT トークンを直接取得
+        if (!token) {
+          throw new Error('Token is missing from the response');
+        }
+        this.decodedToken = jwt.decodeToken(token)
+        localStorage.setItem('app-auth', token); // トークンをローカルストレージに保存
+        localStorage.setItem('app-meta', JSON.stringify(this.decodedToken)); // デコード済みトークンを保存
+        return token; // トークンを返す
+      })
+    );
+  }
 
-// }
-
-//getProductById(productId: number){
-//  return products[productId]
-//}
-//  getProducts(): Observable<any> {
-//    return this.http.get('/api/v1/products')
-//  }
+  logout() {
+    localStorage.removeItem('app-auth')
+    localStorage.removeItem('app-meta')
+    this.decodedToken = new DecodedToken()
+    this.router.navigate(['/login'])
+  }
 }
